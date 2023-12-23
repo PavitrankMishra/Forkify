@@ -46,7 +46,7 @@
     position:relative;
 }
 
-.search {
+#search {
     width:100px;
     height:42px;
     bottom:1px;
@@ -55,6 +55,7 @@
     right:45px;
     background-color:rgb(255, 188, 161);
     color:white;
+    cursor:pointer;
 }
 
 /************************** Right Section ********************/
