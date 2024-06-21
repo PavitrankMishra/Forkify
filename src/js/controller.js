@@ -1,12 +1,10 @@
-import * as model from "./model";
-import recipeView from "./views/recipeView";
+import * as model from './model';
+import recipeView from './views/recipeView';
 
 import 'core-js/stable';
 import 'regenerator-runtime';
 
 const recipeContainer = document.querySelector('.recipe');
-
-
 
 // https://forkify-api.herokuapp.com/v2
 
@@ -14,12 +12,12 @@ const recipeContainer = document.querySelector('.recipe');
 
 // KEY:04477cbd-a616-4574-99ac-2ba16d85231c
 
-const showRecipe = async function () {
+const controlRecipes = async function () {
   try {
     const id = window.location.hash.slice(1);
     console.log(id);
 
-    if(!id) return;
+    if (!id) return;
     // 1)Loading Recipe
     recipeView.renderSpinner();
 
@@ -28,14 +26,13 @@ const showRecipe = async function () {
 
     // Rendering recipe
     recipeView.render(model.state.recipe);
-    
   } catch (err) {
     console.error(err);
+    recipeView.renderError();
   }
 };
 
-showRecipe();
-['hashchange', 'load'].forEach(ev => window.addEventListener(ev,showRecipe));
-
-// window.addEventListener('hashchange', showRecipe);
-// window.addEventListener('load',showRecipe);
+const init = function () {
+  recipeView.addHandlerRender(controlRecipes);
+};
+init();

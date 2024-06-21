@@ -585,8 +585,7 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 
 },{}],"aenu9":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-var _webImmediateJs = require("core-js/modules/web.immediate.js"); // window.addEventListener('hashchange', showRecipe);
- // window.addEventListener('load',showRecipe);
+var _webImmediateJs = require("core-js/modules/web.immediate.js");
 var _model = require("./model");
 var _recipeView = require("./views/recipeView");
 var _recipeViewDefault = parcelHelpers.interopDefault(_recipeView);
@@ -595,7 +594,7 @@ const recipeContainer = document.querySelector(".recipe");
 // https://forkify-api.herokuapp.com/v2
 ///////////////////////////////////////
 // KEY:04477cbd-a616-4574-99ac-2ba16d85231c
-const showRecipe = async function() {
+const controlRecipes = async function() {
     try {
         const id = window.location.hash.slice(1);
         console.log(id);
@@ -608,13 +607,13 @@ const showRecipe = async function() {
         (0, _recipeViewDefault.default).render(_model.state.recipe);
     } catch (err) {
         console.error(err);
+        (0, _recipeViewDefault.default).renderError();
     }
 };
-showRecipe();
-[
-    "hashchange",
-    "load"
-].forEach((ev)=>window.addEventListener(ev, showRecipe));
+const init = function() {
+    (0, _recipeViewDefault.default).addHandlerRender(controlRecipes);
+};
+init();
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","core-js/modules/web.immediate.js":"49tUX","regenerator-runtime":"dXNgZ","./model":"Y4A21","./views/recipeView":"l60JC"}],"gkKU3":[function(require,module,exports) {
 exports.interopDefault = function(a) {
@@ -2492,6 +2491,7 @@ const loadRecipe = async function(id) {
         console.log(recipe);
     } catch (err) {
         console.error(err);
+        throw err;
     }
 };
 
@@ -2540,6 +2540,8 @@ console.log((0, _fractional.Fraction));
 class RecipeView {
     #parentElement = document.querySelector(".recipe");
     #data;
+    #errormessage = "We could not find that recipe. Please try a different recipe";
+    #successMessage = "";
     render(data) {
         this.#data = data;
         this.#clear();
@@ -2549,7 +2551,7 @@ class RecipeView {
     #clear() {
         this.#parentElement.innerHTML = "";
     }
-    renderSpinner = function() {
+    renderSpinner() {
         const markup = `<div class="spinner">
         <svg>
           <use href="${(0, _iconsSvgDefault.default)}#icon-loader"></use>
@@ -2557,7 +2559,37 @@ class RecipeView {
       </div>`;
         this.#clear();
         this.#parentElement.insertAdjacentHTML("afterbegin", markup);
-    };
+    }
+    renderError(message = this.#errormessage) {
+        const markup = `<div class="error">
+            <div>
+              <svg>
+                <use href="${(0, _iconsSvgDefault.default)}#icon-alert-triangle"></use>
+              </svg>
+            </div>
+            <p>${message}</p>
+          </div>`;
+        this.#clear();
+        this.#parentElement.insertAdjacentHTML("afterbegin", markup);
+    }
+    renderSuccess(message = this.#successMessage) {
+        const markup = `<div class="success">
+    <div>
+      <svg>
+        <use href="${(0, _iconsSvgDefault.default)}#icon-smile"></use>
+      </svg>
+    </div>
+    <p>${message}</p>
+  </div>`;
+        this.#clear();
+        this.#parentElement.insertAdjacentHTML("afterbegin", markup);
+    }
+    addHandlerRender(handler) {
+        [
+            "hashchange",
+            "load"
+        ].forEach((ev)=>window.addEventListener(ev, handler));
+    }
     #generateMarkup = function() {
         return `<figure class="recipe__fig">
     <img src="${this.#data.image}" alt="${this.#data.title}" class="recipe__img"/>
