@@ -1,8 +1,11 @@
+// import { search } from 'core-js/fn/symbol';
 import * as model from './model';
 import recipeView from './views/recipeView';
+import searchView from './views/searchView';
 
 import 'core-js/stable';
 import 'regenerator-runtime';
+import searchView from './views/searchView';
 
 const recipeContainer = document.querySelector('.recipe');
 
@@ -32,7 +35,26 @@ const controlRecipes = async function () {
   }
 };
 
+const controlSearchResults = async function () {
+  try {
+    // 1.)Get query
+    const query = searchView.getQuery();
+    if (!query) return;
+
+    // 2.)Load Search Results
+    await model.loadSearchResults(query);
+
+    // 3.)Render Results
+    console.log(model.state.search.results);
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+// controlSearchResults();
+
 const init = function () {
   recipeView.addHandlerRender(controlRecipes);
+  searchView.addHandlerSearch(controlSearchResults);
 };
 init();
