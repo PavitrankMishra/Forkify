@@ -2,6 +2,7 @@
 import * as model from './model';
 import recipeView from './views/recipeView';
 import searchView from './views/searchView';
+import resultsView from './views/resultsView';
 
 import 'core-js/stable';
 import 'regenerator-runtime';
@@ -14,6 +15,10 @@ const recipeContainer = document.querySelector('.recipe');
 ///////////////////////////////////////
 
 // KEY:04477cbd-a616-4574-99ac-2ba16d85231c
+
+if(module.hot) {
+  module.hot.accept();
+}
 
 const controlRecipes = async function () {
   try {
@@ -37,15 +42,19 @@ const controlRecipes = async function () {
 
 const controlSearchResults = async function () {
   try {
+
+    resultsView.renderSpinner();
     // 1.)Get query
     const query = searchView.getQuery();
     if (!query) return;
+
 
     // 2.)Load Search Results
     await model.loadSearchResults(query);
 
     // 3.)Render Results
     console.log(model.state.search.results);
+    resultsView.render(model.state.search.results);
   } catch (err) {
     console.error(err);
   }
