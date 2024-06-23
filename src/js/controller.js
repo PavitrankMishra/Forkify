@@ -17,7 +17,7 @@ const recipeContainer = document.querySelector('.recipe');
 
 // KEY:04477cbd-a616-4574-99ac-2ba16d85231c
 
-if(module.hot) {
+if (module.hot) {
   module.hot.accept();
 }
 
@@ -55,7 +55,7 @@ const controlSearchResults = async function () {
     // 3.)Render Results
     console.log(model.state.search.results);
     // resultsView.render(model.state.search.results);
-    resultsView.render(model.getSearchResultsPage(6));
+    resultsView.render(model.getSearchResultsPage());
 
     // Render initial Pagination Buttons
     paginationView.render(model.state.search);
@@ -64,7 +64,17 @@ const controlSearchResults = async function () {
   }
 };
 
+const controlPagination = function (goToPage) {
+  // 1.)Render New Results
+  resultsView.render(model.getSearchResultsPage(goToPage));
+
+  // 2.)Render new Pagination Buttons
+  paginationView.render(model.state.search);
+  console.log(goToPage);
+};
 // controlSearchResults();
+
+paginationView.addHandlerClick(controlPagination);
 
 const init = function () {
   recipeView.addHandlerRender(controlRecipes);
