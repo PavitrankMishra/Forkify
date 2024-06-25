@@ -649,7 +649,8 @@ const controlServings = function(newServings) {
     // Update the recipe servings in the (state)
     _model.updateServings(newServings);
     // Update the recipe view
-    (0, _recipeViewDefault.default).render(_model.state.recipe);
+    // recipeView.render(model.state.recipe);
+    (0, _recipeViewDefault.default).update(_model.state.recipe);
 };
 const init = function() {
     (0, _recipeViewDefault.default).addHandlerRender(controlRecipes);
@@ -3033,6 +3034,22 @@ class View {
         this._clear();
         const markup = this._generateMarkup();
         this._parentElement.insertAdjacentHTML("afterbegin", markup);
+    }
+    update(data) {
+        if (!data || Array.isArray(data) && data.length == 0) return this.renderError();
+        this._data = data;
+        // this._clear();
+        const newMarkup = this._generateMarkup();
+        const newDOM = document.createRange().createContextualFragment(newMarkup);
+        const newElements = Array.from(newDOM.querySelectorAll("*"));
+        const currElements = Array.from(this._parentElement.querySelectorAll("*"));
+        console.log(newDOM);
+        console.log(newElements);
+        console.log(currElements);
+        newElements.forEach((newEl, i)=>{
+            const curEl = currElements[i];
+            console.log(curEl, newEl.isEqualNode(curEl));
+        });
     }
     _clear() {
         this._parentElement.innerHTML = "";
