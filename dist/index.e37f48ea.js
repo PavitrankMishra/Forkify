@@ -607,6 +607,8 @@ const controlRecipes = async function() {
         const id = window.location.hash.slice(1);
         console.log(id);
         if (!id) return;
+        // 0) Update resultws view to mark selected search results
+        (0, _resultsViewDefault.default).update(_model.getSearchResultsPage());
         // 1)Loading Recipe
         (0, _recipeViewDefault.default).renderSpinner();
         await _model.loadRecipe(id);
@@ -2565,6 +2567,7 @@ const loadSearchResults = async function(query) {
     }
 };
 const getSearchResultsPage = function(page = state.search.page) {
+    if (!state.search || !state.search.results) return "";
     state.search.page = page;
     const start = (page - 1) * state.search.resultsPerPage;
     const end = page * state.search.resultsPerPage;
@@ -3036,9 +3039,9 @@ class View {
         this._parentElement.insertAdjacentHTML("afterbegin", markup);
     }
     update(data) {
-        if (!data || Array.isArray(data) && data.length == 0) return this.renderError();
+        // if (!data || (Array.isArray(data) && data.length == 0))
+        //   return this.renderError();
         this._data = data;
-        // this._clear();
         const newMarkup = this._generateMarkup();
         const newDOM = document.createRange().createContextualFragment(newMarkup);
         const newElements = Array.from(newDOM.querySelectorAll("*"));
@@ -3047,8 +3050,14 @@ class View {
         console.log(newElements);
         console.log(currElements);
         newElements.forEach((newEl, i)=>{
-            const curEl = currElements[i];
-            console.log(curEl, newEl.isEqualNode(curEl));
+            const currEl = currElements[i];
+            console.log(currEl, newEl.isEqualNode(currEl));
+            // UPDATES Changed Text
+            if (!newEl.isEqualNode(currEl) && newEl.firstChild?.nodeValue.trim() !== "") currEl.textContent = newEl.textContent;
+            if (!newEl.isEqualNode(currEl)) {
+                console.log(Array.from(newEl.attributes));
+                Array.from(newEl.attributes).forEach((attr)=>currEl.setAttribute(attr.name, attr.value));
+            }
         });
     }
     _clear() {
@@ -3127,8 +3136,9 @@ class ResultsView extends (0, _viewDefault.default) {
         return this._data.map(this._generateMarkupPreview).join("");
     }
     _generateMarkupPreview(result) {
+        const id = window.location.hash.slice(1);
         return ` <li class="preview">
-            <a class="preview__link" href="#${result.id}">
+            <a class="preview__link ${result.id === id ? "preview__link--active" : " "}" href="#${result.id}">
               <figure class="preview__fig">
                 <img src="${result.image}" alt="${result.title}" />
               </figure>

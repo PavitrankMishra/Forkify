@@ -3,7 +3,8 @@ import icons from 'url:../../img/icons.svg';
 export default class View {
   _data;
   render(data) {
-    if(!data || Array.isArray(data) && data.length == 0) return this.renderError();
+    if (!data || (Array.isArray(data) && data.length == 0))
+      return this.renderError();
     this._data = data;
     this._clear();
     const markup = this._generateMarkup();
@@ -11,22 +12,36 @@ export default class View {
   }
 
   update(data) {
-    if(!data || Array.isArray(data) && data.length == 0) return this.renderError();
+    // if (!data || (Array.isArray(data) && data.length == 0))
+    //   return this.renderError();
     this._data = data;
-    // this._clear();
     const newMarkup = this._generateMarkup();
-
     const newDOM = document.createRange().createContextualFragment(newMarkup);
-    const newElements = Array.from(newDOM.querySelectorAll("*")); 
-    const currElements = Array.from(this._parentElement.querySelectorAll("*"));
+    const newElements = Array.from(newDOM.querySelectorAll('*'));
+    const currElements = Array.from(this._parentElement.querySelectorAll('*'));
     console.log(newDOM);
     console.log(newElements);
     console.log(currElements);
 
     newElements.forEach((newEl, i) => {
-      const curEl = currElements[i];
-      console.log(curEl, newEl.isEqualNode(curEl));
-    })
+      const currEl = currElements[i];
+      console.log(currEl, newEl.isEqualNode(currEl));
+
+      // UPDATES Changed Text
+      if (
+        !newEl.isEqualNode(currEl) &&
+        newEl.firstChild?.nodeValue.trim() !== ''
+      ) {
+        currEl.textContent = newEl.textContent;
+      }
+
+      if (!newEl.isEqualNode(currEl)) {
+        console.log(Array.from(newEl.attributes));
+        Array.from(newEl.attributes).forEach(attr =>
+          currEl.setAttribute(attr.name, attr.value)
+        );
+      }
+    });
   }
 
   _clear() {
