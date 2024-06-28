@@ -5,7 +5,7 @@ export const state = {
   recipe: {},
   search: {
     query: '',
-    results: {},
+    results: [],
     resultsPerPage: RES_PER_PAGE,
     page: 1,
   },
@@ -54,8 +54,8 @@ export const loadSearchResults = async function (query) {
 // loadSearchResults("pizza");
 
 export const getSearchResultsPage = function (page = state.search.page) {
-  if(!state.search || !state.search.results) {
-    return "";
+  if (!state.search || !state.search.results) {
+    return '';
   }
   state.search.page = page;
   const start = (page - 1) * state.search.resultsPerPage;
@@ -64,7 +64,7 @@ export const getSearchResultsPage = function (page = state.search.page) {
 };
 
 export const updateServings = function (newServings) {
-  state.recipe.ingredients.forEach((ing) => {
+  state.recipe.ingredients.forEach(ing => {
     ing.quantity = (ing.quantity * newServings) / state.recipe.servings;
     // new Qt = qt * newServing / oldServing // 2 * 8 /4;
   });
