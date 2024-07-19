@@ -19,13 +19,13 @@ export default class View {
     const newDOM = document.createRange().createContextualFragment(newMarkup);
     const newElements = Array.from(newDOM.querySelectorAll('*'));
     const currElements = Array.from(this._parentElement.querySelectorAll('*'));
-    console.log(newDOM);
-    console.log(newElements);
-    console.log(currElements);
+    // console.log(newDOM);
+    // console.log(newElements);
+    // console.log(currElements);
 
     newElements.forEach((newEl, i) => {
       const currEl = currElements[i];
-      console.log(currEl, newEl.isEqualNode(currEl));
+      // console.log(currEl, newEl.isEqualNode(currEl));
 
       // UPDATES Changed Text
       if (
@@ -36,7 +36,7 @@ export default class View {
       }
 
       if (!newEl.isEqualNode(currEl)) {
-        console.log(Array.from(newEl.attributes));
+        // console.log(Array.from(newEl.attributes));
         Array.from(newEl.attributes).forEach(attr =>
           currEl.setAttribute(attr.name, attr.value)
         );
