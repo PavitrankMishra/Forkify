@@ -71,8 +71,8 @@ export default class View {
     this._parentElement.insertAdjacentHTML('afterbegin', markup);
   }
 
-  renderSuccess(message = this._successMessage) {
-    const markup = `<div class="success">
+  renderMessage(message = this._message) {
+    const markup = `<div class="message">
     <div>
       <svg>
         <use href="${icons}#icon-smile"></use>

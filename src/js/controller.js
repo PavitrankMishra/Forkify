@@ -1,9 +1,11 @@
 // import { search } from 'core-js/fn/symbol';
 import * as model from './model';
+import { MODAL_CLOSE_SEC } from './config';
 import recipeView from './views/recipeView';
 import searchView from './views/searchView';
 import resultsView from './views/resultsView';
 import paginationView from './views/paginationView';
+// import renderMessage from "./views/View";
 
 import 'core-js/stable';
 import 'regenerator-runtime';
@@ -106,8 +108,29 @@ const controlBookMarks = function () {
   bookMarksView.render(model.state.bookmarks);
 };
 
-const controlAddRecipe = function (newRecipe) {
-  console.log(newRecipe);
+const controlAddRecipe = async function (newRecipe) {
+  try {
+    // Show loading Spinner
+    addRecipeView.renderSpinner();
+    
+    // Upload the new Recipe data
+    await model.uploadRecipe(newRecipe);
+    console.log(model.state.recipe);
+
+    // Render Recipe
+    recipeView.render(model.state.recipe);
+
+    // Success Message
+    addRecipeView.renderMessage();
+
+    // Close form Window
+    setTimeout(function () {
+      addRecipeView.toggleWindow();
+    }, MODAL_CLOSE_SEC * 1000);
+  } catch (err) {
+    console.error(err);
+    addRecipeView.renderError(err.message);
+  }
 };
 const init = function () {
   bookMarksView.addHandlerRender(controlBookMarks);
