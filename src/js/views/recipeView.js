@@ -1,7 +1,7 @@
 import icons from 'url:../../img/icons.svg';
 import { Fraction } from 'fraction.js';
 import View from './View';
-console.log(Fraction);
+// console.log(Fraction);
 
 class RecipeView extends View {
   _parentElement = document.querySelector('.recipe');
@@ -122,6 +122,7 @@ class RecipeView extends View {
   };
 
   _generateMarkupIngredient(ing) {
+    const fraction = new Fraction(ing.quantity);
     return `<li class="recipe__ingredient">
       <svg class="recipe__icon">
         <use href="${icons}#icon-check"></use>
