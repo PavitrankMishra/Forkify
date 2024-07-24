@@ -768,7 +768,10 @@ const loadSearchResults = async function(query) {
                 id: rec.id,
                 title: rec.title,
                 publisher: rec.publisher,
-                image: rec.image_url
+                image: rec.image_url,
+                ...rec.key && {
+                    key: rec.key
+                }
             };
         });
         state.search.page = 1;
@@ -816,7 +819,7 @@ init();
 const uploadRecipe = async function(newRecipe) {
     try {
         const ingredients = Object.entries(newRecipe).filter((entry)=>entry[0].startsWith("ingredient") && entry[1] !== "").map((ing)=>{
-            const ingArr = ing[1].replaceAll(" ", "").split(",");
+            const ingArr = ing[1].split(",").map((el)=>el.trim());
             if (ingArr.length !== 3) throw new Error("Wrong ingredient format, Please use the correct format");
             const [quantity, unit, description] = ingArr;
             return {
@@ -1578,7 +1581,10 @@ class RecipeView extends (0, _viewDefault.default) {
       </div>
     </div>
 
-    <div class="recipe__user-generated">
+    <div class="recipe__user-generated ${this._data.key ? "" : "hidden"}">
+    <svg>
+      <use href = "${0, _iconsSvgDefault.default}#icon-user"></use>
+    </svg>
     </div>
     <button class="btn--round btn--bookmark">
       <svg class="">
@@ -2040,6 +2046,11 @@ class ResultsView extends (0, _viewDefault.default) {
                 <h4 class="preview__title">${result.title}</h4>
                 <p class="preview__publisher">${result.publisher}</p>
               </div>
+              <div class="preview__user-generated ${result.key ? "" : "hidden"}">
+                  <svg>
+                    <use href="${0, _iconsSvgDefault.default}#icon-user"></use>
+                  </svg>
+                </div>
             </a>
           </li>`;
     }
@@ -2131,6 +2142,11 @@ class BookMarksView extends (0, _viewDefault.default) {
                 <h4 class="preview__title">${result.title}</h4>
                 <p class="preview__publisher">${result.publisher}</p>
               </div>
+              <div class="preview__user-generated ${result.key ? "" : "hidden"}">
+                  <svg>
+                    <use href="${0, _iconsSvgDefault.default}#icon-user"></use>
+                  </svg>
+                </div>
             </a>
           </li>`;
     }
