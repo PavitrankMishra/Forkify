@@ -1,5 +1,5 @@
 import icons from 'url:../../img/icons.svg';
-import { Fraction } from 'fraction.js';
+import Fraction from 'fraction.js';
 import View from './View';
 // console.log(Fraction);
 
@@ -122,13 +122,13 @@ class RecipeView extends View {
   };
 
   _generateMarkupIngredient(ing) {
-    const fraction = new Fraction(ing.quantity);
+    const x = new Fraction(ing.quantity);
     return `<li class="recipe__ingredient">
       <svg class="recipe__icon">
         <use href="${icons}#icon-check"></use>
       </svg>
       <div class="recipe__quantity">${
-        ing.quantity ? fraction.toFraction(true) : ''
+        ing.quantity ? x.toFraction(true) : ''
       }</div>
       <div class="recipe__description">
         <span class="recipe__unit">${ing.unit}</span>

@@ -2748,9 +2748,10 @@ parcelHelpers.defineInteropFlag(exports);
 var _iconsSvg = require("url:../../img/icons.svg");
 var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
 var _fractionJs = require("fraction.js");
+var _fractionJsDefault = parcelHelpers.interopDefault(_fractionJs);
 var _view = require("./View");
 var _viewDefault = parcelHelpers.interopDefault(_view);
-console.log((0, _fractionJs.Fraction));
+// console.log(Fraction);
 class RecipeView extends (0, _viewDefault.default) {
     _parentElement = document.querySelector(".recipe");
     _errormessage = "We could not find that recipe. Please try a different recipe";
@@ -2853,11 +2854,12 @@ class RecipeView extends (0, _viewDefault.default) {
   </div>`;
     };
     _generateMarkupIngredient(ing) {
+        const x = new (0, _fractionJsDefault.default)(ing.quantity);
         return `<li class="recipe__ingredient">
       <svg class="recipe__icon">
         <use href="${0, _iconsSvgDefault.default}#icon-check"></use>
       </svg>
-      <div class="recipe__quantity">${ing.quantity ? new (0, _fractionJs.Fraction)(ing.quantity).toString() : ""}</div>
+      <div class="recipe__quantity">${ing.quantity ? x.toFraction(true) : ""}</div>
       <div class="recipe__description">
         <span class="recipe__unit">${ing.unit}</span>
         ${ing.description}
