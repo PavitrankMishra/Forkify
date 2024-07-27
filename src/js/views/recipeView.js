@@ -1,7 +1,6 @@
 import icons from 'url:../../img/icons.svg';
 import Fraction from 'fraction.js';
 import View from './View';
-// console.log(Fraction);
 
 class RecipeView extends View {
   _parentElement = document.querySelector('.recipe');
@@ -18,7 +17,6 @@ class RecipeView extends View {
       const btn = e.target.closest('.btn--update-servings');
       if (!btn) return;
       const { updateTo } = btn.dataset;
-      console.log(+updateTo);
       if (+updateTo > 0) handler(+updateTo);
     });
   }

@@ -1,7 +1,6 @@
 import View from './View';
 import icons from 'url:../../img/icons.svg';
 
-console.log(View);
 class BookMarksView extends View {
   _parentElement = document.querySelector('.bookmarks__list');
   _errormessage = 'No recipe found for that query.Please try a different one.';

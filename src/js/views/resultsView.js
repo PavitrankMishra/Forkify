@@ -1,7 +1,6 @@
 import View from './View';
 import icons from 'url:../../img/icons.svg';
 
-console.log(View);
 class ResultsView extends View {
   _parentElement = document.querySelector('.results');
   _errormessage = 'No recipe found for that query.Please try a different one.';

@@ -15,12 +15,6 @@ import addRecipeView from './views/addRecipeView';
 
 const recipeContainer = document.querySelector('.recipe');
 
-// https://forkify-api.herokuapp.com/v2
-
-///////////////////////////////////////
-
-// KEY:04477cbd-a616-4574-99ac-2ba16d85231c
-
 if (module.hot) {
   module.hot.accept();
 }
@@ -28,7 +22,6 @@ if (module.hot) {
 const controlRecipes = async function () {
   try {
     const id = window.location.hash.slice(1);
-    console.log(id);
 
     if (!id) return;
     recipeView.renderSpinner();
@@ -39,13 +32,11 @@ const controlRecipes = async function () {
 
     // 2)Loading Recipe
     await model.loadRecipe(id);
-    // const {recipe} = model.state;
 
     // 3)Rendering recipe
     recipeView.render(model.state.recipe);
-    // controlServings();
+
   } catch (err) {
-    console.error(err);
     recipeView.renderError();
   }
 };
@@ -62,8 +53,6 @@ const controlSearchResults = async function () {
     await model.loadSearchResults(query);
 
     // 3.)Render Results
-    console.log(model.state.search.results);
-    // resultsView.render(model.state.search.results);
     resultsView.render(model.getSearchResultsPage());
 
     // Render initial Pagination Buttons
@@ -79,7 +68,6 @@ const controlPagination = function (goToPage) {
 
   // 2.)Render new Pagination Buttons
   paginationView.render(model.state.search);
-  console.log(goToPage);
 };
 // controlSearchResults();
 
@@ -115,7 +103,6 @@ const controlAddRecipe = async function (newRecipe) {
     
     // Upload the new Recipe data
     await model.uploadRecipe(newRecipe);
-    console.log(model.state.recipe);
 
     // Render Recipe
     recipeView.render(model.state.recipe);
@@ -139,12 +126,12 @@ const controlAddRecipe = async function (newRecipe) {
   }
 };
 const init = function () {
-  bookMarksView.addHandlerRender(controlBookMarks);
+  searchView.addHandlerSearch(controlSearchResults);
   recipeView.addHandlerRender(controlRecipes);
   recipeView.addHandlerUpdateServings(controlServings);
-  searchView.addHandlerSearch(controlSearchResults);
-  paginationView.addHandlerClick(controlPagination);
   recipeView.addHandlerAddBookmark(controlAddBookmark);
+  bookMarksView.addHandlerRender(controlBookMarks);
+  paginationView.addHandlerClick(controlPagination);
   addRecipeView.addHandlerUpload(controlAddRecipe);
 };
 init();

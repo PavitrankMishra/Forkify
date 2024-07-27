@@ -697,12 +697,12 @@ const controlAddRecipe = async function(newRecipe) {
     }
 };
 const init = function() {
-    (0, _bookMarksViewDefault.default).addHandlerRender(controlBookMarks);
+    (0, _searchViewDefault.default).addHandlerSearch(controlSearchResults);
     (0, _recipeViewDefault.default).addHandlerRender(controlRecipes);
     (0, _recipeViewDefault.default).addHandlerUpdateServings(controlServings);
-    (0, _searchViewDefault.default).addHandlerSearch(controlSearchResults);
-    (0, _paginationViewDefault.default).addHandlerClick(controlPagination);
     (0, _recipeViewDefault.default).addHandlerAddBookmark(controlAddBookmark);
+    (0, _bookMarksViewDefault.default).addHandlerRender(controlBookMarks);
+    (0, _paginationViewDefault.default).addHandlerClick(controlPagination);
     (0, _addRecipeViewDefault.default).addHandlerUpload(controlAddRecipe);
 };
 init();
