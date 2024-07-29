@@ -35,7 +35,6 @@ const controlRecipes = async function () {
 
     // 3)Rendering recipe
     recipeView.render(model.state.recipe);
-
   } catch (err) {
     recipeView.renderError();
   }
@@ -93,14 +92,14 @@ const controlAddBookmark = function () {
 };
 
 const controlBookMarks = function () {
-  bookMarksView.render(model.state.bookmarks);
+  return bookMarksView.render(model.state.bookmarks);
 };
 
 const controlAddRecipe = async function (newRecipe) {
   try {
     // Show loading Spinner
     addRecipeView.renderSpinner();
-    
+
     // Upload the new Recipe data
     await model.uploadRecipe(newRecipe);
 

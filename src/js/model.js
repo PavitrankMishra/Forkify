@@ -100,6 +100,8 @@ export const deleteBookMark = function (id) {
   // Mark current recipe as not as bookmarks
   if (id === state.recipe.id) state.recipe.bookmarked = false;
   persistBookmarks();
+
+  
 };
 
 const init = function () {

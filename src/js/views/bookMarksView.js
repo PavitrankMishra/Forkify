@@ -3,7 +3,7 @@ import icons from 'url:../../img/icons.svg';
 
 class BookMarksView extends View {
   _parentElement = document.querySelector('.bookmarks__list');
-  _errormessage = 'No recipe found for that query.Please try a different one.';
+  _errormessage = 'No recipe added yet. Please add a recipe';
   _generateMarkup() {
     return this._data.map(this._generateMarkupPreview).join('');
   }
@@ -13,7 +13,7 @@ class BookMarksView extends View {
   }
   _generateMarkupPreview(result) {
     const id = window.location.hash.slice(1);
-    return ` <li class="preview">
+    return `<li class="preview">
             <a class="preview__link ${
               result.id === id ? 'preview__link--active' : ' '
             }" href="#${result.id}">
