@@ -1,7 +1,7 @@
 Link to the website: https://cuisinefy.netlify.app/
 
 ### DESCRIPTION
-Welcome to Recipe Haven - your go-to for discovering and managing recipes! Explore, save, and create dishes effortlessly with our comprehensive recipe database. Search, view, and customize recipes, adjust servings, and manage your favorites. Built with vanilla JavaScript and OOP principles, Recipe Haven offers a seamless and efficient culinary experience.
+Welcome to Forkify - your go-to for discovering and managing recipes! Explore, save, and create dishes effortlessly with our comprehensive recipe database. Search, view, and customize recipes, adjust servings, and manage your favorites. Built with vanilla JavaScript and OOP principles, Recipe Haven offers a seamless and efficient culinary experience.
 
 ### FEATURES
 #### 1.) Fetching Recipes: The website fetches detailed recipe data from a backend API based on user search queries, ensuring up-to-date and diverse culinary options.
